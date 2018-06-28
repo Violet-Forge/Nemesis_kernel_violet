@@ -13,6 +13,8 @@
 
 #include "walt.h"
 
+#include "pelt.h"
+
 int sched_rr_timeslice = RR_TIMESLICE;
 int sysctl_sched_rr_timeslice = (MSEC_PER_SEC * RR_TIMESLICE) / HZ;
 
@@ -1725,9 +1727,19 @@ pick_next_task_rt(struct rq *rq, struct task_struct *prev, struct rq_flags *rf)
 
 	queue_push_tasks(rq);
 
+<<<<<<< HEAD
 	if (p)
 		update_rt_rq_load_avg(rq_clock_task(rq), cpu_of(rq), rt_rq,
 					rq->curr->sched_class == &rt_sched_class);
+=======
+	/*
+	 * If prev task was rt, put_prev_task() has already updated the
+	 * utilization. We only care of the case where we start to schedule a
+	 * rt task
+	 */
+	if (rq->curr->sched_class != &rt_sched_class)
+		update_rt_rq_load_avg(rq_clock_task(rq), rq, 0);
+>>>>>>> e9ed192fa329 (sched/rt: Add rt_rq utilization tracking)
 
 	return p;
 }
@@ -1736,7 +1748,11 @@ static void put_prev_task_rt(struct rq *rq, struct task_struct *p)
 {
 	update_curr_rt(rq);
 
+<<<<<<< HEAD
 	update_rt_rq_load_avg(rq_clock_task(rq), cpu_of(rq), &rq->rt, 1);
+=======
+	update_rt_rq_load_avg(rq_clock_task(rq), rq, 1);
+>>>>>>> e9ed192fa329 (sched/rt: Add rt_rq utilization tracking)
 
 	/*
 	 * The previous task needs to be made eligible for pushing
@@ -2579,7 +2595,11 @@ static void task_tick_rt(struct rq *rq, struct task_struct *p, int queued)
 	struct sched_rt_entity *rt_se = &p->rt;
 
 	update_curr_rt(rq);
+<<<<<<< HEAD
 	update_rt_rq_load_avg(rq_clock_task(rq), cpu_of(rq), &rq->rt, 1);
+=======
+	update_rt_rq_load_avg(rq_clock_task(rq), rq, 1);
+>>>>>>> e9ed192fa329 (sched/rt: Add rt_rq utilization tracking)
 
 	watchdog(rq, p);
 
