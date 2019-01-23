@@ -1736,8 +1736,12 @@ pick_next_task_rt(struct rq *rq, struct task_struct *prev, struct rq_flags *rf)
 	 * rt task
 	 */
 	if (rq->curr->sched_class != &rt_sched_class)
+<<<<<<< HEAD
 		update_rt_rq_load_avg(rq_clock_task(rq), rq, 0);
 >>>>>>> e9ed192fa329 (sched/rt: Add rt_rq utilization tracking)
+=======
+		update_rt_rq_load_avg(rq_clock_pelt(rq), rq, 0);
+>>>>>>> 77d0a025bb9e (UPSTREAM: sched/fair: Update scale invariance of PELT)
 
 	return p;
 }
@@ -1747,10 +1751,14 @@ static void put_prev_task_rt(struct rq *rq, struct task_struct *p)
 	update_curr_rt(rq);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	update_rt_rq_load_avg(rq_clock_task(rq), cpu_of(rq), &rq->rt, 1);
 =======
 	update_rt_rq_load_avg(rq_clock_task(rq), rq, 1);
 >>>>>>> e9ed192fa329 (sched/rt: Add rt_rq utilization tracking)
+=======
+	update_rt_rq_load_avg(rq_clock_pelt(rq), rq, 1);
+>>>>>>> 77d0a025bb9e (UPSTREAM: sched/fair: Update scale invariance of PELT)
 
 	/*
 	 * The previous task needs to be made eligible for pushing
@@ -2594,10 +2602,14 @@ static void task_tick_rt(struct rq *rq, struct task_struct *p, int queued)
 
 	update_curr_rt(rq);
 <<<<<<< HEAD
+<<<<<<< HEAD
 	update_rt_rq_load_avg(rq_clock_task(rq), cpu_of(rq), &rq->rt, 1);
 =======
 	update_rt_rq_load_avg(rq_clock_task(rq), rq, 1);
 >>>>>>> e9ed192fa329 (sched/rt: Add rt_rq utilization tracking)
+=======
+	update_rt_rq_load_avg(rq_clock_pelt(rq), rq, 1);
+>>>>>>> 77d0a025bb9e (UPSTREAM: sched/fair: Update scale invariance of PELT)
 
 	watchdog(rq, p);
 
