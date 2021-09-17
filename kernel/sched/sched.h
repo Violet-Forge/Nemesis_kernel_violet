@@ -1718,6 +1718,9 @@ struct sched_class {
 	void (*fixup_walt_sched_stats)(struct rq *rq, struct task_struct *p,
 				       u16 updated_demand_scaled,
 				       u16 updated_pred_demand_scaled);
+	void (*fixup_cumulative_runnable_avg)(struct rq *rq,
+					      struct task_struct *task,
+					      u64 new_task_load);
 #endif
 };
 
@@ -1943,10 +1946,7 @@ static inline int hrtick_enabled(struct rq *rq)
 #ifdef CONFIG_SCHED_WALT
 u64 sched_ktime_clock(void);
 #else
-static inline u64 sched_ktime_clock(void)
-{
-	return sched_clock();
-}
+#define sched_ktime_clock ktime_get_ns
 #endif
 
 #ifdef CONFIG_SMP
@@ -2883,14 +2883,15 @@ extern void clear_top_tasks_bitmap(unsigned long *bitmap);
 #if defined(CONFIG_SCHED_TUNE)
 extern bool task_sched_boost(struct task_struct *p);
 extern int sync_cgroup_colocation(struct task_struct *p, bool insert);
-extern bool schedtune_task_colocated(struct task_struct *p);
+extern bool same_schedtune(struct task_struct *tsk1, struct task_struct *tsk2);
 extern void update_cgroup_boost_settings(void);
 extern void restore_cgroup_boost_settings(void);
 
 #else
-static inline bool schedtune_task_colocated(struct task_struct *p)
+static inline bool
+same_schedtune(struct task_struct *tsk1, struct task_struct *tsk2)
 {
-	return false;
+	return true;
 }
 
 static inline bool task_sched_boost(struct task_struct *p)
