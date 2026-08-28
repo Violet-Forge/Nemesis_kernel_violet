@@ -134,7 +134,6 @@ Android.bp
 AnyKernel3/
 build.log
 build.sh
-clang/
+neutron-clang/
 out/
-regen.sh
 snowflake-*
