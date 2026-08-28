@@ -2320,6 +2320,7 @@ CONFIG_SLIMBUS_MSM_NGD=y
 # CONFIG_HSI is not set
 CONFIG_PPS=y
 # CONFIG_PPS_DEBUG is not set
+CONFIG_NTP_PPS=y
 
 #
 # PPS clients support
